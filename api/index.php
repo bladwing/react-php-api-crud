@@ -10,11 +10,11 @@ $objDb = new DbConnect;
 $conn = $objDb->connect();
 
 $method = $_SERVER['REQUEST_METHOD'];
-switch($method) {
+switch ($method) {
     case "GET":
         $sql = "SELECT * FROM users";
         $path = explode('/', $_SERVER['REQUEST_URI']);
-        if(isset($path[3]) && is_numeric($path[3])) {
+        if (isset($path[3]) && is_numeric($path[3])) {
             $sql .= " WHERE id = :id";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':id', $path[3]);
@@ -29,16 +29,22 @@ switch($method) {
         echo json_encode($users);
         break;
     case "POST":
-        $user = json_decode( file_get_contents('php://input') );
-        $sql = "INSERT INTO users(id, name, email, mobile, created_at) VALUES(null, :name, :email, :mobile, :created_at)";
+        $user = json_decode(file_get_contents('php://input'));
+        $sql = "INSERT INTO users(id, name, lastname, email, nickname, birthday, gender, position, status, mobile, created_at) VALUES(null, :name, :lastname, :email, :nickname, :birthday, :gender, :position, :status, :mobile, :created_at)";
         $stmt = $conn->prepare($sql);
         $created_at = date('Y-m-d');
         $stmt->bindParam(':name', $user->name);
+        $stmt->bindParam(':lastname', $user->lastname);
         $stmt->bindParam(':email', $user->email);
+        $stmt->bindParam(':nickname', $user->nickname);
+        $stmt->bindParam(':birthday', $user->birthday);
+        $stmt->bindParam(':gender', $user->gender);
+        $stmt->bindParam(':position', $user->position);
+        $stmt->bindParam(':status', $user->status);
         $stmt->bindParam(':mobile', $user->mobile);
         $stmt->bindParam(':created_at', $created_at);
 
-        if($stmt->execute()) {
+        if ($stmt->execute()) {
             $response = ['status' => 1, 'message' => 'Record created successfully.'];
         } else {
             $response = ['status' => 0, 'message' => 'Failed to create record.'];
@@ -47,7 +53,7 @@ switch($method) {
         break;
 
     case "PUT":
-        $user = json_decode( file_get_contents('php://input') );
+        $user = json_decode(file_get_contents('php://input'));
         $sql = "UPDATE users SET name= :name, email =:email, mobile =:mobile, updated_at =:updated_at WHERE id = :id";
         $stmt = $conn->prepare($sql);
         $updated_at = date('Y-m-d');
@@ -57,7 +63,7 @@ switch($method) {
         $stmt->bindParam(':mobile', $user->mobile);
         $stmt->bindParam(':updated_at', $updated_at);
 
-        if($stmt->execute()) {
+        if ($stmt->execute()) {
             $response = ['status' => 1, 'message' => 'Record updated successfully.'];
         } else {
             $response = ['status' => 0, 'message' => 'Failed to update record.'];
@@ -72,7 +78,7 @@ switch($method) {
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':id', $path[3]);
 
-        if($stmt->execute()) {
+        if ($stmt->execute()) {
             $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
         } else {
             $response = ['status' => 0, 'message' => 'Failed to delete record.'];
