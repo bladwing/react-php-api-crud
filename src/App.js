@@ -1,8 +1,9 @@
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
-import './App.css';
 import CreateUser from './components/CreateUser';
 import EditUser from './components/EditUser';
 import ListUser from './components/ListUser';
+
+import './App.css';
 
 function App() {
   return (
@@ -13,10 +14,10 @@ function App() {
         <nav>
           <ul>
             <li>
-              <Link to="/">List Users</Link>
+              <Link to="/" className='btn btn-primary'>List Users</Link>
             </li>
             <li>
-              <Link to="user/create">Create User</Link>
+              <Link to="user/create"className='btn btn-primary'>Create User</Link>
             </li>
           </ul>
         </nav>

@@ -26,10 +26,10 @@ export default function ListUser() {
     <div>
       <h1>Create user</h1>
       <form onSubmit={handleSubmit}>
-        <table cellSpacing="10">
+        <table className="table">
           <tbody>
             <tr>
-              <th>
+              <th className="col">
                 <label>Name: </label>
               </th>
               <td>
@@ -77,7 +77,7 @@ export default function ListUser() {
                 <label>Birthday: </label>
               </th>
               <td>
-                <input type="date" name="birthday" onChange={handleChange} />
+                <input type="date" name="birthday" onChange={handleChange} className="input"/>
               </td>
             </tr>
             <tr>
@@ -104,10 +104,11 @@ export default function ListUser() {
                 <input type="text" name="status" onChange={handleChange} />
               </td>
             </tr>
-
-            <td colSpan="2" align="right">
-              <button>Save</button>
-            </td>
+            <tr>
+              <td colSpan="2" align="center">
+                <button className="btn">Save</button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </form>
